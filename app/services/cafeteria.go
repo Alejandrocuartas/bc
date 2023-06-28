@@ -78,7 +78,6 @@ func GetCafeteriasWithProducts(db *sql.DB) ([]types.Cafeteria, error) {
 	}
 
 	for i := 0; i < len(cafeterias); i++ {
-		fmt.Println(cafeterias[i])
 		for j := 0; j < len(products); j++ {
 			if products[j].Cafeteria_id == cafeterias[i].ID {
 				cafeterias[i].Products = append(cafeterias[i].Products, products[j])

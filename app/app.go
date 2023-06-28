@@ -7,11 +7,10 @@ import (
 
 func RunServer() {
 	server := s.NewServer(":3000")
-	server.Handle("POST", "/api/cafeteria", handler.PostCafeteria)
+	server.Handle("POST", "/api/cafeteria", server.AddMidleware(handler.PostCafeteria, s.ShowMiddleware()))
 	server.Handle("GET", "/api/cafeteria", handler.GetCafeteriasHandler)
 	server.Handle("GET", "/api/product", handler.GetProductsHandler)
 	server.Handle("GET", "/api/cafeteria/populate", handler.GetPopulatedCafeterias)
 	server.Handle("POST", "/api/product", handler.PostProduct)
-	//server.Handle("POST", "/api/cafeteria/create", server.AddMidleware(handler.PostCafeteria, s.CheckName()))
 	server.Listen()
 }
