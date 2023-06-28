@@ -1,35 +1,41 @@
 package server
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
-	"log"
+	"io"
 	"net/http"
-	"time"
 
 	"github.com/Alejandrocuartas/bc/app/types"
 )
 
-func CheckAuth() types.Middleware {
+func CheckName() types.Middleware {
 	return func(f http.HandlerFunc) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
-			flag := true
-			fmt.Println("Checking Authentication")
-			if flag {
-				f(w, r)
-			} else {
+			bodyBuffer, error1 := io.ReadAll(r.Body)
+			if error1 != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				fmt.Fprintf(w, "error on middleware buffer: %v", error1)
 				return
 			}
-		}
-	}
-}
-
-func Logging() types.Middleware {
-	return func(f http.HandlerFunc) http.HandlerFunc {
-		return func(w http.ResponseWriter, r *http.Request) {
-			start := time.Now()
-			defer func() {
-				log.Println(r.URL.Path, time.Since(start))
-			}()
+			bufferedBody := io.NopCloser(bytes.NewBuffer(bodyBuffer))
+			clone := r.Clone(r.Context())
+			clone.Body = bufferedBody
+			var cafeteria types.Cafeteria
+			decoder := json.NewDecoder(clone.Body)
+			err := decoder.Decode(&cafeteria)
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				fmt.Fprintf(w, "error on middleware: %v", err)
+				return
+			}
+			if cafeteria.Name == "" {
+				w.WriteHeader(http.StatusBadRequest)
+				fmt.Fprintf(w, "error: Name could not be empty.")
+				return
+			}
+			r.Body = bufferedBody
 			f(w, r)
 		}
 	}

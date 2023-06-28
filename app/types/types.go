@@ -7,12 +7,20 @@ import (
 
 type Middleware func(http.HandlerFunc) http.HandlerFunc
 
-type User struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
-	Phone string `json:"phone"`
+type Cafeteria struct {
+	Name string `json:"name"`
 }
 
-func (u *User) ToJson() ([]byte, error) {
+type Product struct {
+	Name         string `json:"name"`
+	Price        int    `json:"price"`
+	Cafeteria_id string `json:"cafeteria_id"`
+}
+
+func (u *Cafeteria) ToJson() ([]byte, error) {
 	return json.Marshal(u)
+}
+
+func (p *Product) ToJson() ([]byte, error) {
+	return json.Marshal(p)
 }
