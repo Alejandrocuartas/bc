@@ -30,11 +30,7 @@ func CheckName() types.Middleware {
 				fmt.Fprintf(w, "error on middleware: %v", err)
 				return
 			}
-			if cafeteria.Name == "" {
-				w.WriteHeader(http.StatusBadRequest)
-				fmt.Fprintf(w, "error: Name could not be empty.")
-				return
-			}
+
 			r.Body = bufferedBody
 			f(w, r)
 		}

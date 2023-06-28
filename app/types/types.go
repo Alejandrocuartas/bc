@@ -8,13 +8,16 @@ import (
 type Middleware func(http.HandlerFunc) http.HandlerFunc
 
 type Cafeteria struct {
-	Name string `json:"name"`
+	ID       int       `json:"id"`
+	Name     string    `json:"name"`
+	Products []Product `json:"products"`
 }
 
 type Product struct {
+	ID           int    `json:"id"`
 	Name         string `json:"name"`
 	Price        int    `json:"price"`
-	Cafeteria_id string `json:"cafeteria_id"`
+	Cafeteria_id int    `json:"cafeteria_id"`
 }
 
 func (u *Cafeteria) ToJson() ([]byte, error) {

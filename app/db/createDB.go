@@ -27,5 +27,4 @@ func CreateDB() {
 	if e != nil {
 		fmt.Printf("error creating db 2: %v", e)
 	}
-	fmt.Println("Created")
 }

@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	db.CreateDB()
 	godotenv.Load()
+	db.CreateDB()
 	app.RunServer()
 }
