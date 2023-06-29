@@ -7,7 +7,7 @@ import (
 )
 
 func RunServer() {
-	port := os.Getenv("port")
+	port := os.Getenv("PORT")
 	server := s.NewServer(":" + port)
 	server.Handle("POST", "/api/cafeteria", server.AddMidleware(handler.PostCafeteria, s.ShowMiddleware()))
 	server.Handle("GET", "/api/cafeteria", handler.GetCafeteriasHandler)
