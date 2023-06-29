@@ -1,12 +1,14 @@
 package app
 
 import (
+	"os"
 	"github.com/Alejandrocuartas/bc/app/handler"
 	s "github.com/Alejandrocuartas/bc/app/server"
 )
 
 func RunServer() {
-	server := s.NewServer(":3000")
+	port := os.Getenv("port")
+	server := s.NewServer(":" + port)
 	server.Handle("POST", "/api/cafeteria", server.AddMidleware(handler.PostCafeteria, s.ShowMiddleware()))
 	server.Handle("GET", "/api/cafeteria", handler.GetCafeteriasHandler)
 	server.Handle("GET", "/api/product", handler.GetProductsHandler)
