@@ -10,7 +10,7 @@ import (
 
 func ConnectDB() (*sql.DB, error) {
 	connectionString := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=require",
-		os.Getenv("HOST"), os.Getenv("PORT"), os.Getenv("USER"), os.Getenv("PASSWORD"), os.Getenv("DBNAME"))
+		os.Getenv("HOST"), os.Getenv("PORTDB"), os.Getenv("USER"), os.Getenv("PASSWORD"), os.Getenv("DBNAME"))
 
 	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
